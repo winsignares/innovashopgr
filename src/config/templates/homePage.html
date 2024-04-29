@@ -49,6 +49,12 @@
                 </button>
                 <span class="labels">Shopping</span>
             </div>
+            <div id="buttonShopping" class="buttonShopping tab-link buttonActive">
+                <button class="chartButton buttons">
+                    <i class="fa-solid fa-chart-simple"></i>
+                </button>
+                <span class="labels">Historial</span>
+            </div>
             <div class="buttonOut">
                 <button id="signOut" class="categoriesButton buttons">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -117,7 +123,7 @@
             <section id="Categories-content" class="tab-content Categories-content">
                 <article class="Categories__dashboard__inputs">
                     <div class="head__categories">
-                        <input type="text" placeholder="Search">
+                        <input type="text" placeholder="Search" id="searchCompany2">
                         <i class="fa-solid fa-search"></i>
                         <span>|</span>
                         <select name="" data="not">
@@ -127,7 +133,7 @@
                     </div>
                     <button id="buttonChanges" class="buttonSaveChanges">Save changes</button>
                 </article>
-                <div class="scrollContainerView">
+                <div class="scrollContainerView" id="scrollContainerView">
                     <template id="template-card__second">
                         <section class="chartView">
                             <article class="chartName">
@@ -147,7 +153,7 @@
                 <div class="mainContainer__dashboard__inputs">
                     <div class="head__container">
                         <div class="input__container">
-                            <input type="text" placeholder="Search Empleoyees" id="searchCompany">
+                            <input type="text" placeholder="Search Empleoyees" id="searchEmpleoyees">
                             <i class="fa-solid fa-search"></i>
                             <span>|</span>
                             <select name="" data="not">
@@ -201,7 +207,7 @@
                 <div class="mainContainer__dashboard__inputs">
                     <div class="head__container">
                         <div class="input__container">
-                            <input type="text" placeholder="Search customers" id="searchCompany">
+                            <input type="text" placeholder="Search customers" id="searchCustomers">
                             <i class="fa-solid fa-search"></i>
                             <span>|</span>
                             <select name="" data="not">
@@ -209,7 +215,7 @@
                                 <option value="">CC</option>
                             </select>
                         </div>
-                        <button id="buttonNewCustomers" class="buttonNewCustomers" style="display: none;">New Customer</button>
+                        <button id="buttonNewCustomers" class="buttonNewCustomers" >New Customer</button>
                     </div>
                 </div>
                 <article class="scroll-container" id="scrollContainerCustomers">
@@ -255,7 +261,7 @@
                 <div class="mainContainer__dashboard__inputs">
                     <div class="head__container">
                         <div class="input__container">
-                            <input type="text" placeholder="Search products" id="searchCompany">
+                            <input type="text" placeholder="Search products" id="searchProducts">
                             <i class="fa-solid fa-search"></i>
                             <span>|</span>
                             <select name="" data="not">
@@ -304,8 +310,8 @@
                                 </div>
                             </div>
                             <div class="buttonsContainer">
-                                <button class="firts">Display/Barcode</button>
-                                <button class="firts">Profit margin</button>
+                                <button  class="firts">Display/Barcode</button>
+                                <button id="pMargin" class="firts">Profit margin</button>
                             </div>
                         </div>
                     </template>
@@ -359,6 +365,42 @@
                                 <div class="chart__modules">
                                     <h4 id="card__key__modules">Modules</h4>
                                     <span id="card__modules"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </article>
+            </div>
+            <div id="Shopping-content" class="tab-content">
+                <div class="mainContainer__dashboard__inputs">
+                    <div class="head__container">
+                        <div class="input__container">
+                            <input type="text" placeholder="Search purcase by date" id="searchPurcase">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <article class="scroll-container" id="scrollContainerShop">
+                    <template id="template-card-shop">
+                        <div class="card" id="card">
+                            <div class="chart__left chart">
+                                <div class="chart__code">
+                                    <h4 id="card__key__code">Code sale</h4>
+                                    <span id="card__code"></span>
+                                </div>
+                                <div class="chart__selling">
+                                    <h4 id="card__key__selling">Selling price</h4>
+                                    <span id="card__selling"></span>
+                                </div>
+                            </div>
+                            <div class="chart__right chart">
+                                <div class="chart__empleoyee">
+                                    <h4 id="card__key__empleoyee">Empleoyee</h4>
+                                    <span id="card__empleoyee"></span>
+                                </div>
+                                <div class="chart__sale">
+                                    <h4 id="card__key__sale">Sale</h4>
+                                    <span id="card__sale"></span>
                                 </div>
                             </div>
                         </div>

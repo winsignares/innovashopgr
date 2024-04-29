@@ -1,7 +1,38 @@
-import { getData, showNewCompanyForm, exit, switchTab,searchCompany,getCompanies,addModule,showUserRole,getEmpleoyees,showNewEmpleoyeeForm,getCustomers,getProducts,showNewProductForm} from "../controllers/homePage.js";
+import { 
+    getData, 
+    showNewCompanyForm, 
+    exit, 
+    switchTab,
+    searchCompany,
+    getCompanies,
+    addModule,
+    showUserRole,
+    getEmpleoyees,
+    showNewEmpleoyeeForm,
+    getCustomers,
+    getProducts,
+    showNewProductForm,
+    searchCompany2,
+    searchEmpleoyees,
+    searchCustomers,
+    searchProducts,
+    getShop
+} from "../controllers/homePage.js";
 
 
 window.addEventListener("DOMContentLoaded", e => {
+
+    
+    searchCompany('searchCompany');
+
+    searchCompany2('searchCompany2');
+
+    searchEmpleoyees('searchEmpleoyees');
+    
+    searchCustomers('searchCustomers');
+
+    searchProducts('searchProducts');
+
 
     getProducts('template-card-products','scrollContainerProducts')
 
@@ -10,6 +41,11 @@ window.addEventListener("DOMContentLoaded", e => {
     getEmpleoyees('template-card-Empleoyee','scrollContainerEmpleoyee')
 
     getData('template-card', 'scrollContainer');
+
+    getCompanies('template-card__second','.scrollContainerView')
+
+    getShop('template-card-shop','scrollContainerShop')
+
 
     exit('signOut');
 
@@ -23,7 +59,7 @@ window.addEventListener("DOMContentLoaded", e => {
     
     const buttonProducts = document.querySelector('.buttonProducts');
 
-    const buttonShop = document.querySelector('.buttonShop');
+    const buttonShop = document.querySelector('.buttonShopping');
 
 
 
@@ -47,11 +83,10 @@ window.addEventListener("DOMContentLoaded", e => {
     })
 
     buttonShop.addEventListener('click',()=>{
-        switchTab('Shop');
+        switchTab('Shopping');
     })
 
-    searchCompany('searchCompany');
-
+    
     const buttonCompany = document.querySelector('#buttonCompany');
     const buttonNewEmpleoyees = document.querySelector('#buttonNewEmpleoyees')
     const buttonNewProduct = document.querySelector('#buttonNewProduct')
@@ -61,10 +96,7 @@ window.addEventListener("DOMContentLoaded", e => {
     buttonNewEmpleoyees.addEventListener("click",showNewEmpleoyeeForm)
 
     buttonNewProduct.addEventListener("click",showNewProductForm)
-
     
-
-    getCompanies('template-card__second','.scrollContainerView')
 
     addModule('.addMethod')
 

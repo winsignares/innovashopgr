@@ -70,11 +70,11 @@ const d = document,
         }
         
     ]
-
+    
 
     const empleoyees = [
         {
-            name: "Mauricio",
+            name: "Breiner",
             lastName: "Molina",
             time: "1 year",
             correo: "maupena9@gmail.com",
@@ -91,87 +91,23 @@ const d = document,
             status: true,
             salary: 20000000
         },
+        
+    ]
+
+    const empleoyeesShop = [
         {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
+            name: empleoyees.name,
+            code: "#84-55877",
+            selligP: 9900000,
+            sale: "29/04/2024"
         },
         {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
+            name: empleoyees.name,
+            code: "#85-52377",
+            selligP: 7900000,
+            sale: "30/04/2024"
         },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: false,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: false,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
-        },
-        {
-            name: "Gionanny",
-            lastName: "Cacua",
-            time: "2 year",
-            correo: "GiovannyCacua@gmail.com",
-            cc: "1133706755",
-            status: true,
-            salary: 20000000
-        }
+        
     ]
 
     const customers = [
@@ -207,7 +143,7 @@ const d = document,
             selling: 3300000
         },
         {
-            product: "Samsung Galaxy S22",
+            product: "Samsung Galaxy S23",
             stock: 10,
             mStock: 5,
             supplier: "Best Buy Co.Inc",
@@ -216,7 +152,7 @@ const d = document,
             selling: 3300000
         },
         {
-            product: "Samsung Galaxy S22",
+            product: "Samsung Galaxy S24",
             stock: 10,
             mStock: 5,
             supplier: "Best Buy Co.Inc",
@@ -225,7 +161,7 @@ const d = document,
             selling: 3300000
         },
         {
-            product: "Samsung Galaxy S22",
+            product: "Samsung Galaxy S25",
             stock: 10,
             mStock: 5,
             supplier: "Best Buy Co.Inc",
@@ -312,6 +248,29 @@ const d = document,
         return scrollContainer;
     }
 
+    export function getShop(templateID, scrollContainerID) {
+        let template = document.getElementById(templateID).content.cloneNode(true);
+        let fragment = document.createDocumentFragment();
+        let scrollContainer = document.getElementById(scrollContainerID);
+
+        
+        empleoyeesShop.forEach(empleoyee => {
+            let clone = template.cloneNode(true);
+            clone.querySelector('#card__code').textContent = empleoyee.code;
+            clone.querySelector('#card__selling').textContent = empleoyee.selligP;
+            clone.querySelector('#card__empleoyee').textContent = empleoyee.name;
+            clone.querySelector('#card__sale').textContent = empleoyee.sale;
+    
+            fragment.appendChild(clone);
+        });
+
+        scrollContainer.innerHTML = '';
+        scrollContainer.appendChild(fragment);
+    
+
+        return scrollContainer;
+    }
+
     export function getCustomers(templateID, scrollContainerID) {
         let template = document.getElementById(templateID).content.cloneNode(true);
         let fragment = document.createDocumentFragment();
@@ -366,31 +325,30 @@ const d = document,
 
 
     export function showNewCompanyForm(buttonID) {
-
-        const buttonCompany = d.getElementById(buttonID)
-
+        const buttonCompany = d.getElementById(buttonID);
+    
         const form = `
             <div>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name"><br><br>
+                <input type="text" id="name" name="name" style="padding:18px"><br><br>
                 <label for="ubication">Ubication:</label>
-                <input type="text" id="ubication" name="ubication"><br><br>
+                <input type="text" id="ubication" name="ubication" style="padding:18px"><br><br>
                 <label for="time">Time:</label>
-                <input type="text" id="time" name="time"><br><br>
+                <input type="text" id="time" name="time" style="padding:18px"><br><br>
                 <label for="correo">Correo:</label>
-                <input type="text" id="correo" name="correo"><br><br>
+                <input type="text" id="correo" name="correo" style="padding:18px"><br><br>
                 <label for="nit">NIT:</label>
-                <input type="text" id="nit" name="nit"><br><br>
+                <input type="text" id="nit" name="nit" style="padding:18px"><br><br>
                 <label for="status">Status:</label>
-                <select id="status" name="status">
+                <select id="status" name="status" style="padding:18px">
                     <option value="true">Active</option>
                     <option value="false">Inactive</option>
                 </select><br><br>
                 <label for="modules">Modules:</label>
-                <input type="text" id="modules" name="modules"><br><br>
+                <input type="text" id="modules" name="modules" style="padding:18px"><br><br>
             </div>
         `;
-
+    
         Swal.fire({
             title: 'New Company',
             html: form,
@@ -401,7 +359,8 @@ const d = document,
             customClass: {
                 confirmButton: 'confirmButton',
             },
-            preConfirm: () => {
+        }).then((result) => {
+            if (result.isConfirmed) {
                 const name = d.getElementById('name').value;
                 const ubication = d.getElementById('ubication').value;
                 const time = d.getElementById('time').value;
@@ -409,50 +368,62 @@ const d = document,
                 const nit = d.getElementById('nit').value;
                 const status = d.getElementById('status').value === 'true';
                 const modules = parseInt(d.getElementById('modules').value);
-
                 companies.push({ name, ubication, time, correo, nit, status, modules });
-                getCompanies();
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Company Created',
+                    text: 'The new company has been created successfully.',
+                });
             }
         });
     }
-
+    
     export function showNewEmpleoyeeForm() {
-
         const form = `
             <div>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name"><br><br>
+                <input type="text" id="name" name="name" style="padding: 15px"><br><br>
                 <label for="lastName">Lastname:</label>
-                <input type="text" id="lastName" name="lastName"><br><br>
+                <input type="text" id="lastName" name="lastName" style="padding: 15px"><br><br>
                 <label for="cc">CC:</label>
-                <input type="text" id="cc" name="cc"><br><br>
+                <input type="text" id="cc" name="cc" style="padding: 15px"><br><br>
                 <label for="correo">Correo:</label>
-                <input type="text" id="correo" name="correo"><br><br>
+                <input type="text" id="correo" name="correo" style="padding: 15px"><br><br>
+                <label for="salary">Salary:</label>
+                <input type="text" id="salary" name="salary" style="padding: 15px"><br><br>
             </div>
         `;
-
+    
         Swal.fire({
-            title: 'New Empleoyee',
+            title: 'New Employee',
             html: form,
             showCancelButton: true,
-            confirmButtonText: 'Create Empleoyee',
+            confirmButtonText: 'Create Employee',
             cancelButtonText: 'Cancel',
             showLoaderOnConfirm: true,
             customClass: {
                 confirmButton: 'confirmButton',
             },
-            preConfirm: () => {
+        }).then((result) => {
+            if (result.isConfirmed) {
                 const name = d.getElementById('name').value;
                 const lastname = d.getElementById('lastName').value;
                 const cc = d.getElementById('cc').value;
                 const correo = d.getElementById('correo').value;
-
-                empleoyees.push({ name, lastname, cc, correo});
-                getCompanies();
+                const salary = d.getElementById('salary').value;
+                empleoyees.push({ name, lastname, cc, correo, salary });
+    
+                getEmpleoyees();
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Employee Created',
+                    text: 'The new employee has been created successfully.',
+                });
             }
         });
     }
-
     export function showNewProductForm() {
 
         const form = `
@@ -617,6 +588,176 @@ const d = document,
         });
     }
 
+
+    export function searchCompany2(inputId) {
+        const input = document.getElementById(inputId);
+        const scrollContainer = document.getElementById('scrollContainerView');
+        const template = document.getElementById('template-card__second');
+    
+        input.addEventListener("input", () => {
+            const valueInput = input.value.toLowerCase().trim();
+            const filteredCompanies = companies.filter(company => company.name.toLowerCase().includes(valueInput));
+    
+            if (filteredCompanies.length > 0) {
+                scrollContainer.classList.remove('flex');
+                const fragment = document.createDocumentFragment();
+                scrollContainer.innerHTML = "";
+    
+                filteredCompanies.forEach(company => {
+                    let clone = template.content.cloneNode(true);
+                    clone.querySelector('#nameValue').textContent = company.name;
+                    clone.querySelector('#nitValue').textContent = company.nit;
+    
+                    fragment.appendChild(clone);
+                });
+    
+                scrollContainer.appendChild(fragment);
+            } else {
+                const contentNot = `
+                  '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
+                  '<span class="text">No hay coincidencias</span>'
+                `
+                scrollContainer.classList.add('flex');
+                scrollContainer.innerHTML = contentNot;
+                scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+              }
+
+            ;
+        });
+    }
+
+    export function searchEmpleoyees(inputId) {
+        const input = document.getElementById(inputId);
+        const scrollContainer = document.getElementById('scrollContainerEmpleoyee');
+        const template = document.getElementById('template-card-Empleoyee');
+    
+        input.addEventListener("input", () => {
+            const valueInput = input.value.toLowerCase().trim();
+            const filteredEmpleoyees = empleoyees.filter(empleoyee => empleoyee.name.toLowerCase().includes(valueInput));
+    
+            if (filteredEmpleoyees.length > 0) {
+                scrollContainer.classList.remove('flex');
+                const fragment = document.createDocumentFragment();
+                scrollContainer.innerHTML = "";
+    
+                filteredEmpleoyees.forEach(empleoyee => {
+                    let clone = template.content.cloneNode(true);
+                    clone.querySelector('#card__nameEmpleoyee').textContent = empleoyee.name;   
+                    clone.querySelector('#card__lastNameEmpleoyee').textContent = empleoyee.lastName;   
+                    clone.querySelector('#card__timeEmpleoyee').textContent = empleoyee.time;   
+                    clone.querySelector('#card__emailEmpleoyee').textContent = empleoyee.correo;   
+                    clone.querySelector('#card__ccEmpleoyee').textContent = empleoyee.cc;   
+                    clone.querySelector('#card__salaryEmpleoyee').textContent = empleoyee.salary;
+
+                    let activeElement = clone.querySelector('#card__activeEmpleoyee');
+                    if (empleoyee.status == true) {
+                        activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-check checkGood"></i>';
+                    } else {
+                        activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+                    }
+    
+                    fragment.appendChild(clone);
+                });
+    
+                scrollContainer.appendChild(fragment);
+            } else {
+                const contentNot = `
+                  '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
+                  '<span class="text">No hay coincidencias</span>'
+                `
+                scrollContainer.classList.add('flex');
+                scrollContainer.innerHTML = contentNot;
+                scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+              }
+
+            ;
+        });
+    }
+
+    export function searchCustomers(inputId) {
+        const input = document.getElementById(inputId);
+        const scrollContainer = document.getElementById('scrollContainerCustomers');
+        const template = document.getElementById('template-card-customers');
+    
+        input.addEventListener("input", () => {
+            const valueInput = input.value.toLowerCase().trim();
+            const filteredCustomers = customers.filter(customer => customer.name.toLowerCase().includes(valueInput));
+    
+            if (filteredCustomers.length > 0) {
+                scrollContainer.classList.remove('flex');
+                const fragment = document.createDocumentFragment();
+                scrollContainer.innerHTML = "";
+    
+                filteredCustomers.forEach(customer => {
+                    let clone = template.content.cloneNode(true);
+                    clone.querySelector('#card__nameCustomers').textContent = customer.name;   
+                    clone.querySelector('#card__lastNameCustomers').textContent = customer.lastName;   
+                    clone.querySelector('#card__addressCustomers').textContent = customer.address;   
+                    clone.querySelector('#card__emailCustomers').textContent = customer.correo;   
+                    clone.querySelector('#card__ccCustomers').textContent = customer.cc;   
+                    clone.querySelector('#card__phoneCustomers').textContent = customer.phone;
+                    clone.querySelector('#card__shoppingCustomers').textContent = customer.shopping;
+    
+                    fragment.appendChild(clone);
+                });
+    
+                scrollContainer.appendChild(fragment);
+            } else {
+                const contentNot = `
+                  '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
+                  '<span class="text">No hay coincidencias</span>'
+                `
+                scrollContainer.classList.add('flex');
+                scrollContainer.innerHTML = contentNot;
+                scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+              }
+
+            ;
+        });
+    }
+
+    export function searchProducts(inputId) {
+        const input = document.getElementById(inputId);
+        const scrollContainer = document.getElementById('scrollContainerProducts');
+        const template = document.getElementById('template-card-products');
+    
+        input.addEventListener("input", () => {
+            const valueInput = input.value.toLowerCase().trim();
+            const filteredProducts = products.filter(product => product.product.toLowerCase().includes(valueInput));
+    
+            if (filteredProducts.length > 0) {
+                scrollContainer.classList.remove('flex');
+                const fragment = document.createDocumentFragment();
+                scrollContainer.innerHTML = "";
+    
+                filteredProducts.forEach(product => {
+                    let clone = template.content.cloneNode(true);
+                    clone.querySelector('#card__product').textContent = product.product;   
+                    clone.querySelector('#card__stock').textContent = product.stock;   
+                    clone.querySelector('#card__mStock').textContent = product.mStock;   
+                    clone.querySelector('#card__supplier').textContent = product.supplier;   
+                    clone.querySelector('#card__code').textContent = product.code;   
+                    clone.querySelector('#card__price').textContent = product.price;
+                    clone.querySelector('#card__selling').textContent = product.selling;
+    
+                    fragment.appendChild(clone);
+                });
+    
+                scrollContainer.appendChild(fragment);
+            } else {
+                const contentNot = `
+                  '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
+                  '<span class="text">No hay coincidencias</span>'
+                `
+                scrollContainer.classList.add('flex');
+                scrollContainer.innerHTML = contentNot;
+                scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+              }
+
+            ;
+        });
+    }
+
     export function getCompanies(templateID, scrollContainerID) {
         let template = d.getElementById(templateID).content.cloneNode(true);
         let chartView = d.querySelector(scrollContainerID);
@@ -640,7 +781,7 @@ const d = document,
         buttonsModule.forEach(button => {
             button.addEventListener("click", e => {
                 const form = `
-                    <div class="flex">
+                    <div class="flex" style="height: auto">
                         <select>
                             <option>Modulo 1</option>
                             <option>Modulo 2</option>
@@ -681,13 +822,15 @@ const d = document,
         }else if(userRole === 'C'){
             userRoleSpan.textContent = 'You are a company' || 'Guest'; 
             switchTab('Empleoyees');
-            showItems('Empleoyees','Customers','Products');
-        }else{
+            showItems('Empleoyees','Customers','Products','Shopping');
+        }else if(userRole === 'E'){
             let buttonNewCustomers = d.getElementById('buttonNewCustomers');
             buttonNewCustomers.style.display = 'block'
             userRoleSpan.textContent = 'You are an employee' || 'Guest';
             switchTab('Customers');
             showItems('Customers','Products','Shop');
+        }else{
+            switchTab('Customers'); 
         }
     };
 
