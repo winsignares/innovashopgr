@@ -49,11 +49,17 @@
                 </button>
                 <span class="labels">Shopping</span>
             </div>
+            <div id="buttonSupplier" class="buttonSupplier tab-link buttonActive">
+                <button class="SupplierButton buttons">
+                    <i class="fa-solid fa-truck-field"></i>
+                </button>
+                <span class="labels">Supplier</span>
+            </div>
             <div id="buttonShopping" class="buttonShopping tab-link buttonActive">
                 <button class="chartButton buttons">
                     <i class="fa-solid fa-chart-simple"></i>
                 </button>
-                <span class="labels">Historial</span>
+                <span class="labels">Sale</span>
             </div>
             <div class="buttonOut">
                 <button id="signOut" class="categoriesButton buttons">
@@ -310,8 +316,9 @@
                                 </div>
                             </div>
                             <div class="buttonsContainer">
-                                <button  class="firts">Display/Barcode</button>
-                                <button id="pMargin" class="firts">Profit margin</button>
+                                <button class="display">Display/Barcode</button>
+                                <button id="pMargin" class="profit">Profit margin</button>
+                                <button id="pMargin" class="discount">Discount</button>
                             </div>
                         </div>
                     </template>
@@ -321,7 +328,7 @@
                 <div class="mainContainer__dashboard__inputs">
                     <div class="head__container">
                         <div class="input__container">
-                            <input type="text" placeholder="Search company" id="searchCompany">
+                            <input type="text" placeholder="Search products" id="searchCompany">
                             <i class="fa-solid fa-search"></i>
                             <span>|</span>
                             <select name="" data="not">
@@ -332,39 +339,28 @@
                         <button id="buttonCompany" class="buttonNewCompany">New Company</button>
                     </div>
                 </div>
-                <article class="scroll-container" id="scrollContainer">
-                    <template id="template-card">
+                <article class="scroll-container" id="scrollContainerProducts2">
+                    <template id="template-card-products2">
                         <div class="card" id="card">
-                            <div class="chart__left chart">
-                                <div class="chart__name">
-                                    <h4 id="card__key__name">Name</h4>
-                                    <span id="card__name"></span>
-                                </div>
-                                <div class="chart__ubication">
-                                    <h4 id="card__key__ubication">Ubication</h4>
-                                    <span id="card__ubication"></span>
-                                </div>
-                                <div class="chart__time">
-                                    <h4 id="card__key__time">Time</h4>
-                                    <span id="card__time"></span>
-                                </div>
-                                <div class="chart__email">
-                                    <h4 id="card__key__time">Correo</h4>
-                                    <span id="card__email"></span>
-                                </div>
+                            <div class="chart__left chart" style="display: flex; justify-content: center; align-items: center;">
+                                <img style="max-width: 20%; height: auto;" id="image__product" src="" alt="">
                             </div>
                             <div class="chart__right chart">
-                                <div class="chart__nit">
-                                    <h4 id="card__key__nit" >NIT</h4>
-                                    <span id="card__nit"></span>
+                                <div class="chart__product">
+                                    <h4 id="card__key__product">Product</h4>
+                                    <span id="card__product"></span>
                                 </div>
-                                <div class="chart__status">
-                                    <h4 id="card__key__status">Status</h4>
-                                    <span id="card__active"></span>
+                                <div class="chart__code">
+                                    <h4 id="card__key__code" >Code</h4>
+                                    <span id="card__code"></span>
                                 </div>
-                                <div class="chart__modules">
-                                    <h4 id="card__key__modules">Modules</h4>
-                                    <span id="card__modules"></span>
+                                <div class="chart__price">
+                                    <h4 id="card__key__price">Selling price</h4>
+                                    <span id="card__price"></span>
+                                </div>
+                                <div class="chart__stock">
+                                    <h4 id="card__key__stock">Stock</h4>
+                                    <span id="card__stock"></span>
                                 </div>
                             </div>
                         </div>
@@ -399,8 +395,45 @@
                                     <span id="card__empleoyee"></span>
                                 </div>
                                 <div class="chart__sale">
-                                    <h4 id="card__key__sale">Sale</h4>
+                                    <h4 id="card__key__sale">Date sale</h4>
                                     <span id="card__sale"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </article>
+            </div>
+            <div id="Supplier-content" class="tab-content">
+                <div class="mainContainer__dashboard__inputs">
+                    <div class="head__container">
+                        <div class="input__container">
+                            <input type="text" placeholder="Search purcase by date" id="searchPurcase">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                        <button id="buttonNewSupplier" class="buttonNewSupplier">New Supplier</button>
+                    </div>
+                </div>
+                <article class="scroll-container" id="scrollContainerSupplier">
+                    <template id="template-card-Supplier">
+                        <div class="card" id="card">
+                            <div class="chart__left chart">
+                                <div class="chart__supplier">
+                                    <h4 id="card__key__supplier">Supplier</h4>
+                                    <span id="card__supplier"></span>
+                                </div>
+                                <div class="chart__phone__supplier">
+                                    <h4 id="card__key__phone__supplier">Number Phone</h4>
+                                    <span id="card__phone__supplier"></span>
+                                </div>
+                            </div>
+                            <div class="chart__right chart">
+                                <div class="chart__nit__supplier">
+                                    <h4 id="card__key__nit__supplier">NIT</h4>
+                                    <span id="card__nit__supplier"></span>
+                                </div>
+                                <div class="chart__address__supplier">
+                                    <h4 id="card__key__address__supplier">Adress</h4>
+                                    <span id="card__address__supplier"></span>
                                 </div>
                             </div>
                         </div>

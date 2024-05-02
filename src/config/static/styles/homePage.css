@@ -4,6 +4,7 @@
 body{
     display: flex;
     overflow-y: hidden;
+    animation: fadeIn .2s ease;
 }
 
 
@@ -68,6 +69,12 @@ button{
     bottom: 0;
 }
 
+.column__bar .column__bar__items .buttonOut.active{
+    position: absolute;
+    right: 0;
+}
+
+
 .column__bar .column__bar__items div > span{
     width: 50%;
     color: white;
@@ -100,6 +107,38 @@ button{
     width: 10%;
     transition: .5s ease;
 }
+
+.column__bar.desactive{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 0;
+    transition: 0.002s ease-in-out;
+    position: relative;
+}
+
+.column__bar.desactive .buttonOut{
+    position: absolute;
+    right: 5%;
+    top: 10%;
+    height: auto;
+    padding: 30px;
+    width: auto;
+}
+
+.column__bar.desactive .column__bar__title{
+    position: absolute;
+    left: 5%;
+    top: 20%;
+}
+
+.column__bar.desactive .buttonOut .labels{
+    display: none;
+}
+
 
 .mainContainer{
     width: 95%;
@@ -756,9 +795,8 @@ select:not([data="not"]) {
 
 
 .main__container__product{
-    width: 50%;
-    height: 60%;
-    border: 1px solid black;
+    width: auto;
+    height: auto;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -773,15 +811,18 @@ select:not([data="not"]) {
 }
 
 .main__container__product [class$="view"]{
-    width: 80%;
+    width: auto;
     height: auto;
     display: flex;
 }
 
 .main__container__product [class$="view"] > div{
     width: 50%;
-    height: 100%;
+    height: auto;
     padding: 15px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
 
 .main__container__product [class$="view"] > div:nth-last-of-type(1){
@@ -794,4 +835,11 @@ select:not([data="not"]) {
     outline: none;
     border: 1px solid #ccc;
     border-radius: 10px;
+    padding: 10px;
+}
+
+.customerContainer{
+    width: 100%;
+    height: 100%;
+    border: 1px solid bisque;
 }

@@ -27,17 +27,13 @@ const d = document,
             scope: 'C'
         },
         {
-            email: "Elián Gutierrez",
+            email: "elian",
             password: 'eliand123',
             scope: 'cli'
         }
         
     ]
 
-
-
-
-    
 
     function validateLogin() {
         const form = d.querySelector('.main__form');
