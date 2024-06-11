@@ -96,7 +96,7 @@ const empleoyees = [
 
 ]
 const empleoyeesShop = [
-    
+
     {
         name: empleoyees.name,
         code: "#84-55877",
@@ -209,39 +209,103 @@ const suppliers = [
 
 
 
-// Funciones para obtener datos
+// Funciones para obtener datos Empresa
+export async function getData(templateID, scrollContainerID) {
+    try {
+        let template = document.getElementById(templateID).content.cloneNode(true);
+        let fragment = document.createDocumentFragment();
+        let scrollContainer = document.getElementById(scrollContainerID);
 
-export function getData(templateID, scrollContainerID) {
+        scrollContainer.innerHTML = '';
+
+        fetch('/HomeAdmin/Empresas', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then(data => {
+            data.forEach(company => {
+                let clone = document.importNode(template, true);
+                clone.querySelector('#card__name').textContent = company.Nombre_Empresa;
+                clone.querySelector('#card__time').textContent = company.Fecha_Inicio;
+                clone.querySelector('#card__email').textContent = company.Correo_Empresa;
+                clone.querySelector('#card__nit').textContent = formatNIT(company.Nic_Empresa); // Formatea el NIT
+                clone.querySelector('#card__modules').textContent = company.Modulo;
+
+                let activeElement = clone.querySelector('#card__active');
+                if (company.Status) {
+                    activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-square-check checkGood"></i>';
+                } else {
+                    activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+                }
+
+                fragment.appendChild(clone);
+            });
+
+            scrollContainer.appendChild(fragment);
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+
+// Función para obtener de una lista 
+// export function getCompanies(templateID, scrollContainerID) {
+//     let template = d.getElementById(templateID).content.cloneNode(true);
+//     let chartView = d.querySelector(scrollContainerID);
+//     let fragment = d.createDocumentFragment();
+
+//     chartView.innerHTML = '';
+
+//     companies.forEach(company => {
+//         let clone = template.cloneNode(true);
+//         clone.querySelector('.nameValue').textContent = company.name;
+//         clone.querySelector('.nitValue').textContent = company.nit;
+//         fragment.appendChild(clone);
+//     });
+
+//     chartView.appendChild(fragment);
+// }
+
+// empresa modulo 2
+export function getCompanies(templateID, scrollContainerID) {
     let template = document.getElementById(templateID).content.cloneNode(true);
+    let scrollContainer = document.querySelector(scrollContainerID);
     let fragment = document.createDocumentFragment();
-    let scrollContainer = document.getElementById(scrollContainerID);
 
     scrollContainer.innerHTML = '';
 
-
-    companies.forEach(company => {
-        let clone = template.cloneNode(true);
-        clone.querySelector('#card__name').textContent = company.name;
-        clone.querySelector('#card__ubication').textContent = company.ubication;
-        clone.querySelector('#card__time').textContent = company.time;
-        clone.querySelector('#card__email').textContent = company.correo;
-        clone.querySelector('#card__nit').textContent = company.nit;
-        clone.querySelector('#card__modules').textContent = company.modules;
-
-        let activeElement = clone.querySelector('#card__active');
-        if (company.status == true) {
-            activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-square-check checkGood"></i>';
-        } else {
-            activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+    fetch('/HomeAdmin/EmpresasModulo', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
         }
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(company => {
+            let clone = template.cloneNode(true);
+            clone.querySelector('.nameValue').textContent = company.Nombre_Empresa;
+            clone.querySelector('.nitValue').textContent = formatNIT(company.Nic_Empresa);
+            fragment.appendChild(clone);
+        });
 
-        fragment.appendChild(clone);
+        scrollContainer.appendChild(fragment);
+    })
+    .catch(error => {
+        console.error('Error fetching companies:', error);
     });
+}
 
-    scrollContainer.appendChild(fragment);
-
-
-    return scrollContainer;
+//Función para formatear el NIT
+function formatNIT(nit) {
+    if (!nit) return '';
+    const nitStr = nit.toString();
+    const parts = [nitStr.slice(0, 3), nitStr.slice(3, 6), nitStr.slice(6, 8), nitStr.slice(8)];
+    return parts.join('-');
 }
 
 export function getEmpleoyees(templateIDEmpleoyees, scrollContainerIDEmpleoyees) {
@@ -288,7 +352,7 @@ export function getShop(templateID, scrollContainerID) {
         let clone = template.cloneNode(true);
         clone.querySelector('#card__code').textContent = empleoyee.code;
         clone.querySelector('#card__selling').textContent = empleoyee.selligP;
-        empleoyees.forEach(el=>{
+        empleoyees.forEach(el => {
             clone.querySelector('#card__empleoyee').textContent = el.name;
         })
         clone.querySelector('#card__sale').textContent = empleoyee.sale;
@@ -409,28 +473,6 @@ export function getSuppliers(templateID, scrollContainerID) {
     return scrollContainer;
 }
 
-export function getCompanies(templateID, scrollContainerID) {
-    let template = d.getElementById(templateID).content.cloneNode(true);
-    let chartView = d.querySelector(scrollContainerID);
-    let fragment = d.createDocumentFragment();
-
-    chartView.innerHTML = '';
-
-    companies.forEach(company => {
-        let clone = template.cloneNode(true);
-        clone.querySelector('.nameValue').textContent = company.name;
-        clone.querySelector('.nitValue').textContent = company.nit;
-        fragment.appendChild(clone);
-    });
-
-    chartView.appendChild(fragment);
-}
-
-
-
-
-
-
 
 //Funciones para formularios de cada rol
 
@@ -471,27 +513,182 @@ export function showNewCompanyForm(templateID, scrollContainerID) {
     }).then((result) => {
         if (result.isConfirmed) {
             const name = d.getElementById('name').value;
-            const ubication = d.getElementById('ubication').value;
             const time = d.getElementById('time').value;
             const correo = d.getElementById('correo').value;
             const nit = d.getElementById('nit').value;
+            const Ubication = d.getElementById('ubication')
             const status = d.getElementById('status').value === 'true';
             const modules = parseInt(d.getElementById('modules').value);
 
+            // Validar que los campos no estén vacíos
+            if (!name || !time || !correo || !nit || isNaN(modules)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'All fields are required.',
+                });
+                return;
+            }
 
-            companies.push({ name, ubication, time, correo, nit, status, modules });
+            // Validar el NIT (exactamente 9 dígitos)
+            const nitPattern = /^\d{9}$/;
+            if (!nitPattern.test(nit)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'NIT must have exactly 9 digits.',
+                });
+                return;
+            }
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Company Created',
-                text: 'The new company has been created successfully.',
-            });
+            // Validar el formato de fecha (DD/MM/AAAA)
+            const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+            if (!datePattern.test(time)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Time must be in the format DD/MM/AAAA.',
+                });
+                return;
+            }
 
+            // Enviar datos al servidor usando fetch
+            fetch('/HomeAdmin/AnadirEmpresa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name, time, correo, nit, Ubication, status, modules})
+
+
+            })
+            .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Company Created',
+                            text: 'The new company has been created successfully.',
+                        });
+                        companies.push({ name, ubication, time, correo, nit, status, modules });
+                        getData(templateID, scrollContainerID);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'There was an error creating the company.',
+                        });
+                    }
+                })
             getData(templateID, scrollContainerID);
         }
     });
 }
 
+// export function showNewEmployeeForm(templateID, scrollContainerID) {
+//     const form = `
+//         <div>
+//             <label for="nameEmployee">Name:</label>
+//             <input type="text" id="nameEmployee" name="nameEmployee" style="padding: 15px"><br><br>
+//             <label for="lastNameEmployee">Lastname:</label>
+//             <input type="text" id="lastNameEmployee" name="lastNameEmployee" style="padding: 15px"><br><br>
+//             <label for="timeEmployee">Time:</label>
+//             <input type="text" id="timeEmployee" name="timeEmployee" style="padding: 15px"><br><br>
+//             <label for="correoEmployee">Correo:</label>
+//             <input type="text" id="correoEmployee" name="correoEmployee" style="padding: 15px"><br><br>
+//             <label for="ccEmployee">CC:</label>
+//             <input type="text" id="ccEmployee" name="ccEmployee" style="padding: 15px"><br><br>
+//             <label for="statusEmployee">Status:</label>
+//             <select id="statusEmployee" name="statusEmployee" style="padding: 15px">
+//                 <option value="true">Active</option>
+//                 <option value="false">Inactive</option>
+//             </select><br><br>
+//             <label for="salaryEmployee">Salary:</label>
+//             <input type="text" id="salaryEmployee" name="salaryEmployee" style="padding: 15px"><br><br>
+//         </div>
+//     `;
+
+//     Swal.fire({
+//         title: 'New Employee',
+//         html: form,
+//         showCancelButton: true,
+//         confirmButtonText: 'Create Employee',
+//         cancelButtonText: 'Cancel',
+//         showLoaderOnConfirm: true,
+//         customClass: {
+//             confirmButton: 'confirmButton',
+//         },
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             const nameEmployee = document.getElementById('nameEmployee').value;
+//             const lastNameEmployee = document.getElementById('lastNameEmployee').value;
+//             const timeEmployee = document.getElementById('timeEmployee').value;
+//             const correoEmployee = document.getElementById('correoEmployee').value;
+//             const ccEmployee = document.getElementById('ccEmployee').value;
+//             const statusEmployee = document.getElementById('statusEmployee').value === 'true';
+//             const salaryEmployee = parseFloat(document.getElementById('salaryEmployee').value);
+
+//             // Validar que los campos no estén vacíos
+//             if (!nameEmployee || !lastNameEmployee || !timeEmployee || !correoEmployee || !ccEmployee || isNaN(salaryEmployee)) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Error',
+//                     text: 'All fields are required.',
+//                 });
+//                 return;
+//             }
+
+//             // Validar el formato de fecha (DD/MM/AAAA)
+//             const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+//             if (!datePattern.test(timeEmployee)) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Error',
+//                     text: 'Time must be in the format DD/MM/AAAA.',
+//                 });
+//                 return;
+//             }
+
+//             // Enviar datos al servidor usando fetch
+//             fetch('/HomeEmpresa/AnadirVendedor', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({nameEmployee, lastNameEmployee, timeEmployee, correoEmployee, ccEmployee, statusEmployee, salaryEmployee})
+//             })
+//             .then(response => response.json())
+//             .then(data => {
+//                 if (data.success) {
+//                     Swal.fire({
+//                         icon: 'success',
+//                         title: 'Employee Created',
+//                         text: 'The new employee has been created successfully.',
+//                     });
+//                     // Agregar el nuevo empleado a la lista global y actualizar la vista
+//                     empleoyees.push({ nameEmployee, lastNameEmployee, timeEmployee, correoEmployee, ccEmployee, statusEmployee, salaryEmployee });
+//                     getEmpleoyees(templateID, scrollContainerID);
+//                 } else {
+//                     Swal.fire({
+//                         icon: 'error',
+//                         title: 'Error',
+//                         text: data.message || 'There was an error creating the employee.',
+//                     });
+//                 }
+//             })
+//             .catch(error => {
+//                 console.error('Error creating employee:', error);
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Error',
+//                     text: 'There was an error creating the employee.',
+//                 });
+//             });
+//         }
+//     });
+// }
+
+//Lista 
 export function showNewEmpleoyeeForm(templateID, scrollContainerID) {
 
     const form = `
@@ -781,7 +978,7 @@ export function exit(buttonExitID) {
     let buttonExit = d.getElementById(buttonExitID);
 
     buttonExit.addEventListener("click", e => {
-        routesGo('../../../../src/config/templates/login.html')
+        routesGo('/logout/login')
     })
 }
 
@@ -804,7 +1001,6 @@ export function switchTab(tab) {
         selectedLink.classList.add('active');
     }
 
-
 }
 
 
@@ -819,47 +1015,154 @@ export function searchCompany(inputId) {
 
     input.addEventListener("input", () => {
         const valueInput = input.value.toLowerCase().trim();
-        const filteredCompanies = companies.filter(company => company.name.toLowerCase().includes(valueInput));
 
-        if (filteredCompanies.length > 0) {
-            scrollContainer.classList.remove('flex');
-            const fragment = document.createDocumentFragment();
-            scrollContainer.innerHTML = "";
+        if (valueInput) {
+            fetch(`/HomeAdmin/Search?query=${encodeURIComponent(valueInput)}`)
+                .then(response => response.json())
+                .then(filteredCompanies => {
+                    if (filteredCompanies.length > 0) {
+                        scrollContainer.innerHTML = ""; // Limpiar el contenido existente
 
-            filteredCompanies.forEach(company => {
-                let clone = template.content.cloneNode(true);
-                clone.querySelector('#card__name').textContent = company.name;
-                clone.querySelector('#card__ubication').textContent = company.ubication;
-                clone.querySelector('#card__time').textContent = company.time;
-                clone.querySelector('#card__email').textContent = company.correo;
-                clone.querySelector('#card__nit').textContent = company.nit;
-                clone.querySelector('#card__modules').textContent = company.modules;
+                        filteredCompanies.forEach(company => {
+                            let clone = template.content.cloneNode(true);
+                            clone.querySelector('#card__name').textContent = company.name;
+                            clone.querySelector('#card__time').textContent = company.time;
+                            clone.querySelector('#card__email').textContent = company.correo;
+                            clone.querySelector('#card__nit').textContent = company.nit;
+                            clone.querySelector('#card__modules').textContent = company.modules;
 
-                let activeElement = clone.querySelector('#card__active');
-                if (company.status == true) {
-                    activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-check checkGood"></i>';
-                } else {
-                    activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
-                }
+                            let activeElement = clone.querySelector('#card__active');
+                            if (company.status) {
+                                activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-check checkGood"></i>';
+                            } else {
+                                activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+                            }
 
-                fragment.appendChild(clone);
-            });
-
-            scrollContainer.appendChild(fragment);
+                            scrollContainer.appendChild(clone);
+                        });
+                    } else {
+                        // Manejar caso donde no hay coincidencias
+                        scrollContainer.innerHTML = `
+                                <img class="imgPlanta" src="../static/assets/animationPlanta.png">
+                                <span class="text">No hay coincidencias</span>
+                            `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching companies:', error);
+                });
         } else {
-            const contentNot = `
-                  '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
-                  '<span class="text">No hay coincidencias</span>'
-                `
-            scrollContainer.classList.add('flex');
-            scrollContainer.innerHTML = contentNot;
-            scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+            scrollContainer.innerHTML = ''; // Limpiar el contenido si no hay valor en el input
         }
-
-
-        ;
     });
 }
+
+
+
+// export function searchCompany(inputId) {
+//     //Gio
+//     const input = document.getElementById(inputId);
+//     const scrollContainer = document.getElementById('scrollContainer');
+//     const template = document.getElementById('template-card');
+
+//     input.addEventListener("input", () => {
+//         const valueInput = input.value.toLowerCase().trim();
+
+//         if (valueInput) {
+//             fetch(`/HomeAdmin/Search?query=${encodeURIComponent(valueInput)}`)
+//                 .then(response => response.json())
+//                 .then(filteredCompanies => {
+//                     if (filteredCompanies.length > 0) {
+//                         scrollContainer.classList.remove('flex');
+//                         const fragment = document.createDocumentFragment();
+//                         scrollContainer.innerHTML = "";
+
+//                         filteredCompanies.forEach(company => {
+//                             let clone = template.content.cloneNode(true);
+//                             clone.querySelector('#card__name').textContent = company.name;
+//                             clone.querySelector('#card__time').textContent = company.time;
+//                             clone.querySelector('#card__email').textContent = company.correo;
+//                             clone.querySelector('#card__nit').textContent = company.nit;
+//                             clone.querySelector('#card__modules').textContent = company.modules;
+
+//                             let activeElement = clone.querySelector('#card__active');
+//                             if (company.status) {
+//                                 activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-check checkGood"></i>';
+//                             } else {
+//                                 activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+//                             }
+
+//                             fragment.appendChild(clone);
+//                         });
+
+//                         scrollContainer.appendChild(fragment);
+//                     } else {
+//                         const contentNot = `
+//                             <img class="imgPlanta" src="../static/assets/animationPlanta.png">
+//                             <span class="text">No hay coincidencias</span>
+//                         `;
+//                         scrollContainer.classList.add('flex');
+//                         scrollContainer.innerHTML = contentNot;
+//                         scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+//                     }
+//                 })
+//                 .catch(error => {
+//                     console.error('Error fetching companies:', error);
+//                 });
+//         } else {
+//             scrollContainer.innerHTML = '';
+//         }
+//     });
+
+
+    //Mauro 
+    // const input = document.getElementById(inputId);
+    // const scrollContainer = document.getElementById('scrollContainer');
+    // const template = document.getElementById('template-card');
+
+    // input.addEventListener("input", () => {
+    //     const valueInput = input.value.toLowerCase().trim();
+    //     const filteredCompanies = companies.filter(company => company.name.toLowerCase().includes(valueInput));
+
+    //     if (filteredCompanies.length > 0) {
+    //         scrollContainer.classList.remove('flex');
+    //         const fragment = document.createDocumentFragment();
+    //         scrollContainer.innerHTML = "";
+
+    //         filteredCompanies.forEach(company => {
+    //             let clone = template.content.cloneNode(true);
+    //             clone.querySelector('#card__name').textContent = company.name;
+    //             clone.querySelector('#card__ubication').textContent = company.ubication;
+    //             clone.querySelector('#card__time').textContent = company.time;
+    //             clone.querySelector('#card__email').textContent = company.correo;
+    //             clone.querySelector('#card__nit').textContent = company.nit;
+    //             clone.querySelector('#card__modules').textContent = company.modules;
+
+    //             let activeElement = clone.querySelector('#card__active');
+    //             if (company.status == true) {
+    //                 activeElement.innerHTML = 'Active' + '<i class="fa-solid fa-check checkGood"></i>';
+    //             } else {
+    //                 activeElement.innerHTML = 'Inactive' + '<i class="fa-solid fa-circle-xmark checkFalse"></i>';
+    //             }
+
+    //             fragment.appendChild(clone);
+    //         });
+
+    //         scrollContainer.appendChild(fragment);
+    //     } else {
+    //         const contentNot = `
+    //               '<img class="imgPlanta" src="../static/assets/animationPlanta.png">',
+    //               '<span class="text">No hay coincidencias</span>'
+    //             `
+    //         scrollContainer.classList.add('flex');
+    //         scrollContainer.innerHTML = contentNot;
+    //         scrollContainer.querySelector('.imgPlanta').classList.add('imgPlanta');
+    //     }
+
+
+    //     ;
+    // });
+//}
 
 export function searchCompany2(inputId) {
     const input = document.getElementById(inputId);
@@ -1030,43 +1333,65 @@ export function searchProducts(inputId) {
     });
 }
 
-
+// Función para agregar un módulo a una empresa 1
 export function addModule(buttonAddMethod) {
-    const buttonsModule = d.querySelectorAll(buttonAddMethod);
+    const buttonsModule = document.querySelectorAll(buttonAddMethod);
 
     buttonsModule.forEach(button => {
-        button.addEventListener("click", e => {
-            const form = `
+        button.addEventListener("click", async e => {
+            try {
+                // Fetch the modules from the server
+                const response = await fetch("/HomeAdmin/Modulos");
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const modulos = await response.json();
+
+                // Create the options for the select element
+                const selectOptions = modulos.map(modulo => `<option value="${modulo.id}">${modulo.Nombre_Modulo}</option>`).join('');
+
+                const form = `
                     <div class="flex" style="height: auto">
                         <select style="padding: 15px">
-                            <option>Modulo 1</option>
-                            <option>Modulo 2</option>
-                            <option>Modulo 3</option>
-                            <option>Modulo 4</option>
+                            ${selectOptions}
                         </select>
                     </div>
                 `;
 
-            Swal.fire({
-                title: 'Add new module',
-                html: form,
-                showCancelButton: true,
-                confirmButtonText: 'Add module',
-                cancelButtonText: 'Cancel',
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    const selectedCompanyIndex = 0;
-                    const selectedCompany = companies[selectedCompanyIndex];
+                Swal.fire({
+                    title: 'Add new module',
+                    html: form,
+                    showCancelButton: true,
+                    confirmButtonText: 'Add module',
+                    cancelButtonText: 'Cancel',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        const selectElement = document.querySelector('select');
+                        const selectedModuleId = selectElement.value;
 
-                    selectedCompany.modules++;
+                        // Example action with the selected module ID
+                        console.log("Selected Module ID:", selectedModuleId);
 
-                    getCompanies();
-                }
-            });
+                        // Assuming companies is a global variable or accessible in this scope
+                        const selectedCompanyIndex = 0; // Change this as per your logic
+                        const selectedCompany = companies[selectedCompanyIndex];
+
+                        selectedCompany.modules++;
+
+                        getCompanies();
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching modules:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to load modules. Please try again later.'
+                });
+            }
         });
     });
 }
-
 
 export function addProfit(buttonAddMethod) {
     const buttonsDisplay = document.querySelectorAll(buttonAddMethod);
@@ -1282,30 +1607,29 @@ export function addDisplay(buttonAddMethod) {
 }
 
 
-
 export function showUserRole() {
-    const userRole = localStorage.getItem('userRole');
+    const userRole = localStorage.getItem('UserRole');
     const userRoleSpan = document.getElementById('userRole');
 
     switch (userRole) {
-        case 'A':
+        case "1":
             userRoleSpan.textContent = 'You are administrator' || 'Guest';
             switchTab('Home');
             showItems('Home', 'Categories');
             break;
-        case 'C':
+        case "2":
             userRoleSpan.textContent = 'You are a company' || 'Guest';
             switchTab('Empleoyees');
             showItems('Empleoyees', 'Customers', 'Supplier');
             break;
-        case 'E':
+        case "3":
             let buttonNewCustomers = d.getElementById('buttonNewCustomers');
             buttonNewCustomers.style.display = 'block'
             userRoleSpan.textContent = 'You are an employee' || 'Guest';
             switchTab('Customers');
             showItems('Customers', 'Products', 'Shop');
             break;
-        case 'cli':
+        case "4": //Cliente
             showColumn('columnBar')
             switchTab('Shopping');
             showItems('');
